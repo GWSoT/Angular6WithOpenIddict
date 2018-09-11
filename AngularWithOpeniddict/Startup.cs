@@ -164,8 +164,8 @@ namespace AngularWithOpeniddict
                         {
                             ClientId = "angular6",
                             DisplayName = "Angular SPA",
-                            PostLogoutRedirectUris = { new Uri("http://localhost:9000/unauthorized") },
-                            RedirectUris = { new Uri("http://localhost:9000") },
+                            PostLogoutRedirectUris = { new Uri("http://localhost:9000/account/sign-out") },
+                            RedirectUris = { new Uri("http://localhost:9000/account/sign-in/") },
                             Permissions =
                             {
                                 OpenIddictConstants.Permissions.Endpoints.Authorization,

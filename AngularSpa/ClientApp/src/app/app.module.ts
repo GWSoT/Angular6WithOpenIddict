@@ -13,6 +13,7 @@ import {
   AuthWellKnownEndpoints
 } from 'angular-auth-oidc-client';
 import { AccountModule } from './account/account.module';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
@@ -22,7 +23,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -58,10 +60,10 @@ export class AppModule {
       openIDImplicitFlowConfiguration.client_id = 'angular6';
       openIDImplicitFlowConfiguration.response_type = 'id_token token';
       openIDImplicitFlowConfiguration.scope = 'openid api1';
-      openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'http://localhost:9000/sign-out';
-      openIDImplicitFlowConfiguration.start_checksession = false;
+      openIDImplicitFlowConfiguration.post_logout_redirect_uri = "http://localhost:9000/account/sign-out";
+      openIDImplicitFlowConfiguration.start_checksession = false; 
       openIDImplicitFlowConfiguration.silent_renew = true;
-      openIDImplicitFlowConfiguration.post_login_route = '';
+      openIDImplicitFlowConfiguration.post_login_route = '/sign-in';
       // HTTP 403
       openIDImplicitFlowConfiguration.forbidden_route = '/Forbidden';
       // HTTP 401

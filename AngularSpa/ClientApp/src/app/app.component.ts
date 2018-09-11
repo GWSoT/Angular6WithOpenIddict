@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ClientApp';
+  isAuthenticated = false;
+
+  constructor(_securityService: OidcSecurityService) {
+    _securityService.getIsAuthorized().subscribe(result => {
+      this.isAuthenticated = result
+      console.log(result)
+    })
+    console.log(_securityService.getState())
+    console.log(_securityService.getToken())
+  }
 }
