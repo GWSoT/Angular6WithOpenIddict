@@ -31,7 +31,7 @@ namespace AngularWithOpeniddict
 
         public Startup(IHostingEnvironment env)
         {
-            _certificate = new X509Certificate2(Path.Combine(env.ContentRootPath, "Config/cert.pfx"), "");
+            _certificate = new X509Certificate2(Path.Combine(env.ContentRootPath, "cert.pfx"), "");
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -165,7 +165,7 @@ namespace AngularWithOpeniddict
                             ClientId = "angular6",
                             DisplayName = "Angular SPA",
                             PostLogoutRedirectUris = { new Uri("http://localhost:9000/account/sign-out") },
-                            RedirectUris = { new Uri("http://localhost:9000/account/sign-in/") },
+                            RedirectUris = { new Uri("http://localhost:9000/account/sign-in") },
                             Permissions =
                             {
                                 OpenIddictConstants.Permissions.Endpoints.Authorization,

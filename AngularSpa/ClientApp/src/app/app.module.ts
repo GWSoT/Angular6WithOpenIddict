@@ -14,6 +14,9 @@ import {
 } from 'angular-auth-oidc-client';
 import { AccountModule } from './account/account.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { NavbarComponent } from './navbar/navbar.component';
+import { AuthorizationService } from './services/authorization.service';
 
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
@@ -24,11 +27,13 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
 @NgModule({
   declarations: [
     AppComponent,
-    SidebarComponent
+    SidebarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     AccountModule,
+    DashboardModule,
     AppRoutingModule,
     HttpClientModule,
     AuthModule.forRoot()
@@ -41,6 +46,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
         deps: [OidcConfigService],
         multi: true
     },
+    AuthorizationService
   ],
   bootstrap: [AppComponent]
 })
@@ -54,7 +60,7 @@ export class AppModule {
       const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
 
       openIDImplicitFlowConfiguration.stsServer = 'http://localhost:12345';
-      openIDImplicitFlowConfiguration.redirect_url = 'http://localhost:9000';
+      openIDImplicitFlowConfiguration.redirect_url = 'http://localhost:9000/account/sign-in/';
       // The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
       // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
       openIDImplicitFlowConfiguration.client_id = 'angular6';
@@ -63,7 +69,7 @@ export class AppModule {
       openIDImplicitFlowConfiguration.post_logout_redirect_uri = "http://localhost:9000/account/sign-out";
       openIDImplicitFlowConfiguration.start_checksession = false; 
       openIDImplicitFlowConfiguration.silent_renew = true;
-      openIDImplicitFlowConfiguration.post_login_route = '/sign-in';
+      openIDImplicitFlowConfiguration.post_login_route = '/dashboard/profile';
       // HTTP 403
       openIDImplicitFlowConfiguration.forbidden_route = '/Forbidden';
       // HTTP 401
@@ -75,8 +81,9 @@ export class AppModule {
       openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 10;
 
       const authWellKnownEndpoints = new AuthWellKnownEndpoints();
-      authWellKnownEndpoints.setWellKnownEndpoints(this.oidcConfigService.wellKnownEndpoints);
 
+      authWellKnownEndpoints.setWellKnownEndpoints(this.oidcConfigService.wellKnownEndpoints);
+      authWellKnownEndpoints.userinfo_endpoint = "http://localhost:12345/api/userinfo"
       this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration, authWellKnownEndpoints);
 
       });
